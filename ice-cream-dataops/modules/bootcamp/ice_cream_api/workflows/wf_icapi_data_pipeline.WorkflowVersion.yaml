@@ -48,7 +48,7 @@ workflowDefinition:
         externalId: 'oee_timeseries'
         data: {}
       isAsyncComplete: false
-    name: 'oee_timeseries_function'
+    name: 'oee_timeseries'
     description: First task
     retries: 3
     timeout: 3600
