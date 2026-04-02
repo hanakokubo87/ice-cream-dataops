@@ -1,0 +1,57 @@
+workflowExternalId: wf_icapi_data_pipeline
+version: '1'
+workflowDefinition:
+  description: 'Run tasks in sequence'
+  tasks:
+  - externalId: 'create_asset_hierarchy_transformation_task'
+    type: 'transformation'
+    parameters:
+      transformation:
+        externalId: 'create_asset_hierarchy'
+        concurrencyPolicy: fail
+    name: 'create_asset_hierarchy'
+    description: Second task
+    retries: 3
+    timeout: 3600
+    onFailure: 'skipTask' 
+  - externalId: 'contextualize_ts_assets_transformation_task'
+    type: 'transformation'
+    parameters:
+      transformation:
+        externalId: 'contextualize_ts_assets'
+        concurrencyPolicy: fail
+    name: 'contextualize_ts_assets'
+    description: Second task
+    retries: 3
+    timeout: 3600
+    onFailure: 'skipTask'  
+    dependsOn:
+      - externalId: create_asset_hierarchy_transformation_task
+  - externalId: icapi_datapoints_extractor_task
+    type: function
+    parameters:
+      function:
+        externalId: icapi_datapoints_extractor
+        data: { "hours": 1 }
+      isAsyncComplete: false
+    name: 'create_asset_hierarchy'
+    description: First task
+    retries: 3
+    timeout: 3600
+    onFailure: abortWorkflow
+    dependsOn:
+      - externalId: contextualize_ts_assets_transformation_task
+  - externalId: oee_timeseries_function_task
+    type: 'function'
+    parameters:
+      function:
+        externalId: 'oee_timeseries'
+        data: {}
+      isAsyncComplete: false
+    name: 'icapi_datapoints_extractor'
+    description: First task
+    retries: 3
+    timeout: 3600
+    onFailure: 'abortWorkflow'
+    dependsOn:
+      - externalId: icapi_datapoints_extractor_task
