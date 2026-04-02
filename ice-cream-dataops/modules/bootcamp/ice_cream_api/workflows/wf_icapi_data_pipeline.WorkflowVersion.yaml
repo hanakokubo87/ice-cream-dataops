@@ -34,7 +34,7 @@ workflowDefinition:
         externalId: icapi_datapoints_extractor
         data: { "hours": 1 }
       isAsyncComplete: false
-    name: 'create_asset_hierarchy'
+    name: 'icapi_datapoints_extractor'
     description: First task
     retries: 3
     timeout: 3600
@@ -48,7 +48,7 @@ workflowDefinition:
         externalId: 'oee_timeseries'
         data: {}
       isAsyncComplete: false
-    name: 'icapi_datapoints_extractor'
+    name: 'oee_timeseries_function'
     description: First task
     retries: 3
     timeout: 3600
