@@ -1,0 +1,9 @@
+externalId: icapi_trigger
+triggerRule:
+  cronExpression: '*/15 * * * *'
+  timezone: UTC
+  triggerType: schedule
+workflowExternalId: wf_icapi_data_pipeline
+workflowVersion: '1'
+metadata:
+  cognite-toolkit-auth-hash: 320752e9
